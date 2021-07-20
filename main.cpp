@@ -1,11 +1,17 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "MyEvent.hpp"
+#include "Button.hpp"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!", sf::Style::Close);
-    ButtonOpenPhoto myButton;
+    Button myButton;
+
+    while(!EventQueue.empty()) {
+        event = EventQueue.pop()
+        tree_root->process(event)
+    }
 
     while (window.isOpen())
     {
@@ -16,6 +22,7 @@ int main()
                 window.close();
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
+                    myButton.set_code(open_photo);
                     myButton.click(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y), &window);
                 }
             }
