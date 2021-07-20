@@ -1,13 +1,22 @@
 #include <SFML/Graphics.hpp>
 #include <queue>
 
-enum {
+enum ButtonType {
     open_photo,
     close_photo
 };
 
+enum EventType {
+    button
+};
+
 class Event {
+    private: 
+        EventType type_;
+
     public:
+        Event();
+        virtual ~Event() = 0;
 
 };
 

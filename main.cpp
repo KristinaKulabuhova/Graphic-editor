@@ -8,10 +8,10 @@ int main()
     sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!", sf::Style::Close);
     Button myButton;
 
-    while(!EventQueue.empty()) {
-        event = EventQueue.pop()
-        tree_root->process(event)
-    }
+    // while(!EventQueue.empty()) {
+    //     event = EventQueue.pop()
+    //     tree_root->process(event)
+    // }
 
     while (window.isOpen())
     {
