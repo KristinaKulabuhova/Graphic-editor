@@ -4,7 +4,7 @@
 #include <string.h>
 #include "Button.hpp"
 
-Button::Button(std::string name_font = "IndieFlower-Regular.ttf", std::string text = "Open photo", const sf::Vector2f& size = sf::Vector2f(120.f, 50.f), sf::Color color = sf::Color(0, 255, 0, 100), int code = 0) {
+Button::Button(std::string name_font, std::string text, const sf::Vector2f& size, sf::Color color, int code) {
     shape_.setSize(size);
     shape_.setFillColor(color);
 
@@ -19,17 +19,19 @@ void Button::draw(sf::RenderWindow* window) {
     window->draw(text_);
 }
 
-ButtonEvent Button::click(float mouse_x, float mouse_y, sf::RenderWindow* window) {
 
-    ButtonEvent event_button(code_);
-
-    EventQueue.push(event_button);
-
-    if (shape_.getFillColor() == sf::Color(255, 0, 0, 100)) {
-    shape_.setFillColor(sf::Color(0, 255, 0, 100));
-    }
-    else {
+void Button::click(float mouse_x, float mouse_y, sf::RenderWindow* window, Photo* photo) {
+    if (mouse_x < )
+    if (this->code_ == open_photo) {
         shape_.setFillColor(sf::Color(255, 0, 0, 100));
+        // window->clear();
+        this->draw(window);
+        //window->display();
+        photo->open(window);
+    }
+    if (this->code_ == close_photo) {
+        shape_.setFillColor(sf::Color(0, 255, 0, 100));
+        photo->close(window);
     }
 }
 

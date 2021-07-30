@@ -7,11 +7,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!", sf::Style::Close);
     Button myButton;
-
-    // while(!EventQueue.empty()) {
-    //     event = EventQueue.pop()
-    //     tree_root->process(event)
-    // }
+    Photo photo;
 
     while (window.isOpen())
     {
@@ -22,8 +18,9 @@ int main()
                 window.close();
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
+                    std::cout << "Pressed" << std::endl;
                     myButton.set_code(open_photo);
-                    myButton.click(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y), &window);
+                    myButton.click(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y), &window, &photo);
                 }
             }
         }

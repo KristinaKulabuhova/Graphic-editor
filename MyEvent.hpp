@@ -1,5 +1,5 @@
+#pragma once
 #include <SFML/Graphics.hpp>
-#include <queue>
 
 enum ButtonType {
     open_photo,
@@ -19,13 +19,3 @@ class Event {
         virtual ~Event() = 0;
 
 };
-
-class ButtonEvent: public Event {
-    private:
-        int code_;
-    
-    public:
-        ButtonEvent(int code);
-};
-
-std::queue<ButtonEvent> EventQueue;

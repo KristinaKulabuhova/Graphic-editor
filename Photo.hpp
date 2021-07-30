@@ -10,21 +10,8 @@ class Photo {
         sf::Vector2f position_;
     
     public:
-        Photo(std::string path = "image.png", float pos_x = 50, float pos_y = 25) {
-            image_.loadFromFile(path); //загружаем в него файл
-            texture_.loadFromImage(image_); //передаем в него объект Image (изображения)
-            sprite_.setTexture(texture_); //передаём в него объект Texture (текстуры)
-            sprite_.setPosition(pos_x, pos_y); //задаем начальные координаты появления спрайта
-        }
+        Photo(std::string path = "image.png", float pos_x = 200.f, float pos_y = 200.f);
 
-        void draw(sf::RenderWindow* window) {
-            window->clear();
-            this->draw(window);
-            window->display();
-        }
-
-        // void wait(std::queue<ButtonEvent> EventQueue) {
-
-
-        // }
+        void open(sf::RenderWindow* window);
+        void close(sf::RenderWindow* window);  
 };
