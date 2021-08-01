@@ -15,7 +15,6 @@ void Photo::open(sf::RenderWindow* window) {
     //window->clear();
     window->draw(sprite_);
     window->display();
-    //scanf("%s");
 }
 
 void Photo::close(sf::RenderWindow* window) {

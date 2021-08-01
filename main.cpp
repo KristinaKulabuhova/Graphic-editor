@@ -18,8 +18,7 @@ int main()
                 window.close();
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    std::cout << "Pressed" << std::endl;
-                    myButton.set_code(open_photo);
+                    printf("Mouse: %d %d\n", event.mouseButton.x, event.mouseButton.y);
                     myButton.click(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y), &window, &photo);
                 }
             }
