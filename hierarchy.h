@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <string.h>
+#include <vector>
 #include <unordered_set>
 #include "Photo.hpp"
 #include "MyEvent.hpp"
@@ -109,34 +110,67 @@ class Text : public Element {
         }
 };
 
-class CycleShape : public Element {
-    private:
-        sf::CircleShape shape_; // надо избавиться от shape внутри и сделать как-то без него
+enum id_shape {
+    CycleShape,
+    RectangleShape
+};
 
-        std::unordered_set<Element*> heirs;
+class PrimitiveShape {
+    protected:
+        Position pos_;
+        sf::Vector2f size_;
+        sf::Color color_;
+        float radius_;
+        id_shape id_;
 
     public:
+        PrimitiveShape(Position pos = {0, 0}, sf::Vector2f size = {0, 0}, sf::Color color = sf::Color(0, 0, 0), float radius = 0, id_shape id = RectangleShape) : pos_(pos), size_(size), color_(color), radius_(radius), id_(id) {};
+        virtual void render(sf::RenderWindow* window) = 0;
+};
+
+class CycleShape : public PrimitiveShape {
+    private:
+        sf::CircleShape shape_; 
+
+    public:
+        CycleShape() {
+            shape_.setRadius(radius_);
+            shape_.setFillColor(color_);
+            shape_.setPosition(pos_.x, pos_.y);
+        }
+
         void render(sf::RenderWindow* window) override {
             window->draw(shape_);
-            Element::render(window);
         }
 };
 
-class RectangleShape : public Element {
+class RectangleShape : public PrimitiveShape {
     private:
         sf::RectangleShape shape_;
 
-        std::unordered_set<Element*> heirs;
-
     public:
-        RectangleShape(sf::Color color, const sf::Vector2f& size) {
-            shape_.setSize(size);
-            shape_.setFillColor(color);
+        RectangleShape() {
+            shape_.setSize(size_);
+            shape_.setFillColor(color_);
+            shape_.setPosition(pos_.x, pos_.y);
         }
 
         void render(sf::RenderWindow* window) override {
             window->draw(shape_);
-            Element::render(window);
+        }
+};
+
+class Shape : public Element {
+    private:
+        std::vector<PrimitiveShape> shapes_;
+
+    public:
+        Shape(const std::vector<PrimitiveShape>& other) : shapes_(other) {}
+        // перемещение
+        void render(sf::RenderWindow* window) override {
+            for (auto el : shapes_) {
+                el.render(window);
+            }
         }
 };
 
