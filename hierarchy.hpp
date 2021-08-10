@@ -21,7 +21,7 @@
 
 struct Position {
     float x;
-    float y; // нет конструкторов - больно
+    float y; 
 
     Position(float pos_x, float pos_y) {
         x = pos_x;
@@ -56,7 +56,7 @@ class Element {
         }
 };
 
-class Image {
+class Image : public Element {
     private:
         sf::Image image_;
 
@@ -72,7 +72,7 @@ class Image {
         }
 };
 
-class Button { // только обработка нажатий
+class Button : Element { // только обработка нажатий
     private:        
         sf::Event event_;
         int code_;
@@ -108,16 +108,17 @@ class Text : public Element {
             Element::render(window);
         }
 };
+
 class RectangleShape : public Element {
-    private:
+    protected:
         sf::Vector2f size_;
         Position pos_;
         sf::Color color_;
 
     public:
-        RectangleShape(sf::Vector2f size = {100, 100}, Position pos = {200, 200}, sf::Color color = sf::Color(255,0,0)) : size_(size), pos_(pos), color_(color) {}
+        RectangleShape(sf::Vector2f size = {100, 100}, Position pos = {300, 300}, sf::Color color = sf::Color(0,255,0)) : size_(size), pos_(pos), color_(color) {}
 
-        void render(sf::RenderWindow* window) {
+        virtual void render(sf::RenderWindow* window) {
             auto shape = sf::RectangleShape(size_);
             shape.setPosition(pos_.x, pos_.y);
             shape.setFillColor(color_);
@@ -133,9 +134,9 @@ class CycleShape : public Element {
         sf::Color color_;
 
     public:
-        CycleShape(float radius = 50, Position pos = {300, 300}, sf::Color color = sf::Color(0,255,0)) : radius_(radius), pos_(pos), color_(color) {}
+        CycleShape(float radius = 50, Position pos = {100, 100}, sf::Color color = sf::Color(255,0,0)) : radius_(radius), pos_(pos), color_(color) {}
 
-        void render(sf::RenderWindow* window) {
+        virtual void render(sf::RenderWindow* window) {
             auto shape = sf::CircleShape(radius_);
             shape.setPosition(pos_.x, pos_.y);
             shape.setFillColor(color_);
@@ -146,37 +147,26 @@ class CycleShape : public Element {
 
 class RoundedRectElement : public RectangleShape {
     private:
+        float radius_;
 
     public:
+        RoundedRectElement(int radius = 15) : RectangleShape({200, 100}, {0, 0}, sf::Color(255,0,0)) { 
+            radius_ = radius;
+        };
+
         void render(sf::RenderWindow* window) override {
-            auto rect_one = RectangleShape({300, 325}, {200, 175}, sf::Color(255, 0, 0));
-            auto rect_two = RectangleShape({325, 300}, {175, 200}, sf::Color(255, 0, 0));
+            auto cycle_lu = CycleShape(radius_, {pos_.x, pos_.y}, sf::Color(255, 0, 0));
+            cycle_lu.render(window);
+            auto cycle_ru = CycleShape(radius_, {pos_.x + size_.x - 2 * radius_, pos_.y}, sf::Color(255, 0, 0));
+            cycle_ru.render(window);
+            auto cycle_ld = CycleShape(radius_, {pos_.x, pos_.y + size_.y - 2 *radius_}, sf::Color(255, 0, 0));
+            cycle_ld.render(window);
+            auto cycle_rd = CycleShape(radius_, {pos_.x + size_.x - 2 * radius_, pos_.y + size_.y - 2 *radius_}, sf::Color(255, 0, 0));
+            cycle_rd.render(window);
 
-            auto cycle_lu = CycleShape(25, {200, 200}, sf::Color(255, 0, 0));
-            auto cycle_ru = CycleShape(25, {300, 200}, sf::Color(255, 0, 0));
-            auto cycle_ld = CycleShape(25, {200, 300}, sf::Color(255, 0, 0));
-            auto cycle_rd = CycleShape(25, {300, 300}, sf::Color(255, 0, 0));
-
-            //window->draw(rect_one);
+            auto rect_one = RectangleShape({size_.x - 2 * radius_, size_.y}, {pos_.x + radius_, pos_.y}, sf::Color(255, 0, 0)); 
+            rect_one.render(window);
+            auto rect_two = RectangleShape({size_.x, size_.y - 2 * radius_}, {pos_.x, pos_.y + radius_}, sf::Color(255, 0, 0));
+            rect_two.render(window);
         }
 };
-
-// class Sprite : public Element {
-//     private:
-//         sf::Sprite sprite_;
-//         sf::Texture texture_;
-
-//         std::unordered_set<Element*> heirs; 
-    
-//     public:
-//         Sprite(Image* photo, Position pos) {
-//             texture_.loadFromImage(photo->get_image(), sf::IntRect(250, 250, 150, 150)); 
-//             sprite_.setTexture(texture_); 
-//             sprite_.setPosition(pos.x, pos.y); 
-//         }
-
-//         void render(sf::RenderWindow* window) override {
-//             window->draw(sprite_);
-//             Element::render(window);
-//         }
-// };

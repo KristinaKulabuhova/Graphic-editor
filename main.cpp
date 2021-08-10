@@ -5,13 +5,16 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!", sf::Style::Close);
 
     Element top_tree;
-    RectangleShape rect_shape; 
-    CycleShape cycle_shape;
-    top_tree.add_heir(&rect_shape);
-    top_tree.add_heir(&cycle_shape);
+    // RectangleShape rect_shape; 
+    // CycleShape cycle_shape;
+    RoundedRectElement rounded;
+
+    // top_tree.add_heir(&rect_shape);
+    // top_tree.add_heir(&cycle_shape);
+    //top_tree.add_heir(&rounded);
 
     while (window.isOpen())
     {
@@ -30,6 +33,7 @@ int main()
 
         window.clear();
         top_tree.render(&window);
+        rounded.render(&window);
         window.display();
     }
 
